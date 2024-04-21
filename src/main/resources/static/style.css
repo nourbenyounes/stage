@@ -1,0 +1,19 @@
+/* Ajoutez du style CSS pour améliorer l'apparence de votre interface */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.list-group {
+    margin-top: 20px;
+}
