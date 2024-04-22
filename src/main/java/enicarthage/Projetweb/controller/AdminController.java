@@ -1,5 +1,6 @@
 package enicarthage.Projetweb.controller;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,11 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import enicarthage.Projetweb.entity.Administrateur;
 import enicarthage.Projetweb.entity.Enseignant;
 import enicarthage.Projetweb.entity.Etudiant;
 import enicarthage.Projetweb.repository.EnseignantRepository;
 import enicarthage.Projetweb.repository.EtudiantRepository;
+import enicarthage.Projetweb.service.AdministrateurService;
 import enicarthage.Projetweb.service.DocumentService;
+import jakarta.servlet.http.HttpSession;
 
 
 @Controller
@@ -26,6 +30,8 @@ public class AdminController {
     private EnseignantRepository enseignantRepository;
     @Autowired
     private DocumentService documentService;
+    @Autowired
+    private AdministrateurService administrateurService;
     //@Autowired
     //private BCryptPasswordEncoder passwordEncoder;
     @GetMapping("/ajouter-etudiant")
@@ -86,7 +92,15 @@ public class AdminController {
 
         return "redirect:/admin/ajouter-etudiant";
     }
-
+    @GetMapping("/pageAdministrateur")
+    public String showAdminPage(HttpSession session,Model model) {
+        String userId = (String) session.getAttribute("userId");
+        Optional<Administrateur> adminInDB = administrateurService.findAdminById(userId);
+Administrateur admin=adminInDB.get();
+        model.addAttribute("role", "administrateur");
+        model.addAttribute("nomUtilisateur", admin.getEmail());
+        return "pageAdministrateur";
+    }
 
 
 }
