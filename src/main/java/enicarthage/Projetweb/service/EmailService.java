@@ -6,11 +6,12 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EmailService {
+public class EmailService implements EmailServicee{
 
     @Autowired
     private JavaMailSender emailSender;
 
+    @Override
     public void sendTokenByEmail(String recipientEmail, String token) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(recipientEmail);

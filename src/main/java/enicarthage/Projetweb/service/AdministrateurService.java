@@ -10,15 +10,15 @@ import enicarthage.Projetweb.repository.AdministrateurRepository;
 import java.util.Optional;
 
 @Service
-public class AdministrateurService {
+public class AdministrateurService implements AdministrateurServicee{
 
     @Autowired
     private AdministrateurRepository administrateurRepository;
-
+    @Override
     public Optional<Administrateur> authentifierAdministrateur(String email, String password) {
         return administrateurRepository.findByEmailAndPassword(email, password);
     }
-
+    @Override
     public boolean existeAdministrateurByEmail(String email) {
         return administrateurRepository.existsByEmail(email);
     }

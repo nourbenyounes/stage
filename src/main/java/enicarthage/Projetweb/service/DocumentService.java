@@ -13,10 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DocumentService {
+public class DocumentService implements DocumentServicee{
 
     @Autowired
     private DocumentRepository documentRepository;
+    @Override
 
     public void saveDocument(String titre, String chemin, byte[] fileContent,String destinataire, String source) {
         Document document = new Document();
@@ -32,12 +33,18 @@ public class DocumentService {
         document.setId((long)20 );
         documentRepository.save(document);
     }
+    @Override
+
     public List<Document> getDocumentsForAdministrateur() {
         return documentRepository.findByDestinataire("administrateur");
     }
+    @Override
+
 	public Optional<Document> getDocumentById(Long id) {
 		return documentRepository.findById(id);
 	}
+    @Override
+
 	public List<Document> getDocumentsForEtudiant() {
         return documentRepository.findByDestinataire("etudiant");
 
