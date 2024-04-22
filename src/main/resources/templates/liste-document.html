@@ -16,11 +16,29 @@
 <body>
     <div class="container">
         <h1 class="mt-5">Liste des ressources</h1>
-        <ul class="list-group mt-3">
-            <li th:each="document : ${documents}" class="list-group-item">
-                <a th:href="@{/download/{id}(id=${document.id})}" th:text="${document.titre}"></a>
+
+        <h2>PFE books</h2>
+        <ul>
+            <li th:each="document : ${documents}" th:if="${document.section == 'PFE book'}">
+                <p>
+                    <a th:href="@{/download/{id}(id=${document.id})}" th:text="${document.titre}"></a>
+                    <span>(Source: <span th:text="${document.source}"></span>)</span>
+                </p>
             </li>
-        </ul>  
+        </ul>
+        
+        <!-- Section Poster -->
+        <h2>Templates</h2>
+        <ul>
+            <li th:each="document : ${documents}" th:if="${document.section == 'Template'}">
+                <p>
+                    <a th:href="@{/download/{id}(id=${document.id})}" th:text="${document.titre}"></a>
+                    <span>(Source: <span th:text="${document.source}"></span>)</span>
+                </p>
+            </li>
+        </ul>
+         
+         
     </div>
 
     <!-- Ajout de Bootstrap JS (si nécessaire) -->

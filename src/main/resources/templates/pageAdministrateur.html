@@ -20,4 +20,54 @@
         <p>Rôle : <span th:text="${role}"></span></p>
         <div class="mt-3">
             <a href="/admin/ajouter-etudiant" class="btn btn-primary mr-2">Ajouter Enseignant ou Étudiant</a>
-            <a href="/ajouter-doc
+            <a href="/ajouter-document" class="btn btn-primary mr-2">Ajouter un document</a>
+            <a href="/addDeadline" class="btn btn-primary mr-2">Ajouter une deadline</a>
+            <a href="/deadlineadmin" class="btn btn-primary">Deadlines</a>
+        </div>
+        
+        <h1 class="mt-5">Liste des Documents Administrateur</h1>
+<h2>Convensions</h2>
+        <ul>
+            <li th:each="document : ${documents}" th:if="${document.section == 'convension'}">
+                <p>
+                    <a th:href="@{/download/{id}(id=${document.id})}" th:text="${document.titre}"></a>
+                    <span>(Source: <span th:text="${document.source}"></span>)</span>
+                </p>
+            </li>
+        </ul>
+        
+        <h2>rapport PFE</h2>
+        <ul>
+            <li th:each="document : ${documents}" th:if="${document.section == 'rapport PFE'}">
+                <p>
+                    <a th:href="@{/download/{id}(id=${document.id})}" th:text="${document.titre}"></a>
+                    <span>(Source: <span th:text="${document.source}"></span>)</span>
+                </p>
+            </li>
+        </ul>
+                <h2>rapport stage</h2>
+        <ul>
+            <li th:each="document : ${documents}" th:if="${document.section == 'rapport stage'}">
+                <p>
+                    <a th:href="@{/download/{id}(id=${document.id})}" th:text="${document.titre}"></a>
+                    <span>(Source: <span th:text="${document.source}"></span>)</span>
+                </p>
+            </li>
+        </ul>
+                        <h2>poster</h2>
+        <ul>
+            <li th:each="document : ${documents}" th:if="${document.section == 'poster'}">
+                <p>
+                    <a th:href="@{/download/{id}(id=${document.id})}" th:text="${document.titre}"></a>
+                    <span>(Source: <span th:text="${document.source}"></span>)</span>
+                </p>
+            </li>
+        </ul>
+         
+    
+    <!-- Ajout de Bootstrap JS (si nécessaire) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
