@@ -45,8 +45,11 @@ public class NotificationServiceImpl implements NotificationService {
     public void generateNotificationsForDeadlines() {
         List<Deadline> deadlines = deadlineService.getDeadlinesProches();
         for (Deadline deadline : deadlines) {
-            Notification notification = createNotification("Destinataire", deadline);
-            addNotification(notification);
+            if (deadline.getS() == 0) {
+                deadline.setS(1);
+                Notification notification = createNotification("Etudiant", deadline);
+                addNotification(notification);
+            }
         }
     }
 }
