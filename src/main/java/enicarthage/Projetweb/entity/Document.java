@@ -55,6 +55,9 @@ public class Document implements Serializable {
     @Column(name = "filecontent", columnDefinition="LONGBLOB")
 
     private byte[] fileContent;
+    @Column
+    private String section;
+    
     
 public String getChemin() {return this.chemin;}
 public byte[] getfileContent() {return this.fileContent;}
