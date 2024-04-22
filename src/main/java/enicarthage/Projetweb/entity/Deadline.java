@@ -26,6 +26,7 @@ public class Deadline {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String description;
+    private int s=0;
     private Date date;
 
     public Deadline(String description, Date date) {
