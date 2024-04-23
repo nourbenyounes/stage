@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import enicarthage.Projetweb.entity.Document;
 import enicarthage.Projetweb.entity.Enseignant;
+import enicarthage.Projetweb.entity.Etudiant;
 import enicarthage.Projetweb.service.DocumentService;
 import enicarthage.Projetweb.service.EtudiantService;
 import jakarta.servlet.http.HttpSession;
@@ -31,20 +32,25 @@ public class DocumentController {
     @Autowired
     private EtudiantService etudiantService;
     @GetMapping("/upload")
-    public String uploadDocumentForm() {
-    	
+    public String uploadDocumentForm(Model model) {
+        List<Etudiant> etudiants = etudiantService.getAllEtudiants();
+        System.out.println("upload");
+
+        model.addAttribute("etudiants", etudiants);
+        System.out.println(etudiants);
         return "upload"; 
     }
 
-    @PostMapping("/upload")
-    public void handleFileUpload(@RequestParam("titre") String titre, @RequestParam("file") MultipartFile file,@RequestParam("destinataire") String destinataire,HttpSession session) {
+
+   /* @PostMapping("/upload")
+    public void handleFileUpload(@RequestParam("titre") String titre, @RequestParam("file") MultipartFile file,@RequestParam("destinataire") String destinataire,@RequestParam("section") String section,HttpSession session) {
         if (!file.isEmpty()) {
             try {
                 byte[] fileContent = file.getBytes();
                 String chemin = file.getOriginalFilename();
                 String source = (String) session.getAttribute("userId");
 
-                documentService.saveDocument(titre, chemin, fileContent,destinataire,source);
+                documentService.saveDocument(titre, chemin, fileContent,destinataire,source,section);
                 System.out.println(source);
                 //return "redirect:/welcome";
             } catch (IOException e) {
@@ -57,12 +63,46 @@ public class DocumentController {
             System.out.println("erreur");
 
         }
-    }
-    @GetMapping("/liste-document")
-    public String listeressources(Model model) {
-    	List<Document> documents = documentService.getDocumentsForEtudiant();
+    }*/
+    @PostMapping("/upload")
+    public void handleFileUpload(@RequestParam("titre") String titre, 
+                                 @RequestParam("file") MultipartFile file,
+                                 @RequestParam("destinataire") String destinataire,
+                                 @RequestParam("autreDestinataire") String autreDestinataire,
+                                 @RequestParam("section") String section,
+                                 HttpSession session) {
+        if (!file.isEmpty()) {
+            try {
+                byte[] fileContent = file.getBytes();
+                String chemin = file.getOriginalFilename();
+                String source = (String) session.getAttribute("userId");
 
+                // Utiliser l'autre destinataire s'il est renseigné, sinon utiliser celui de la liste déroulante
+                String destinataireFinal = autreDestinataire.isEmpty() ? destinataire : autreDestinataire;
+
+                documentService.saveDocument(titre, chemin, fileContent, destinataireFinal, source, section);
+                System.out.println(source);
+                //return "redirect:/welcome";
+            } catch (IOException e) {
+                //return "redirect:/erreurAuthentification";
+                System.out.println("erreur");
+            }
+        } else {
+            //return "redirect:/erreurAuthentification";
+            System.out.println("erreur");
+        }
+    }
+
+    @GetMapping("/liste-document")
+    public String listeressources(Model model,HttpSession session) {
+        String cin=session.getAttribute("userId").toString();
+
+    	List<Document> documents = documentService.getDocumentsForEtudiant();
         model.addAttribute("documents", documents);
+        List<Document> documentss = documentService.getDocumentsForEtudiantid(cin);
+        System.out.println(cin);
+        System.out.println("documentss"+documentss);
+        model.addAttribute("documentss", documentss);
         return"/liste-document";}
     
     
@@ -85,6 +125,7 @@ public class DocumentController {
     @GetMapping("/ajouter-document")
     public String afficherFormulaireAjoutEnseignant(Model model) {
         model.addAttribute("enseignant", new Enseignant());
+        
         return "upload";
     }
     
@@ -96,14 +137,14 @@ public class DocumentController {
     }
 
     @PostMapping("/ajouter-document-etudiant")
-    public void handleFileUploadEtudiant(@RequestParam("titre") String titre, @RequestParam("file") MultipartFile file,@RequestParam("destinataire") String destinataire,HttpSession session) {
+    public void handleFileUploadEtudiant(@RequestParam("titre") String titre, @RequestParam("file") MultipartFile file,@RequestParam("destinataire") String destinataire,@RequestParam("section") String section,HttpSession session) {
         if (!file.isEmpty()) {
             try {
                 byte[] fileContent = file.getBytes();
                 String chemin = file.getOriginalFilename();
                 String source = (String) session.getAttribute("userId");
 
-                documentService.saveDocument(titre, chemin, fileContent,destinataire,source);
+                documentService.saveDocument(titre, chemin, fileContent,destinataire,source,section);
 
                 System.out.println(source);
                 //return "redirect:/welcome";

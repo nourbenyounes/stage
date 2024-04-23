@@ -140,7 +140,7 @@ public class AuthentificationController {
     }
 
     @PostMapping("/access-page")
-    public String accessPage(@RequestParam("token") String token, Model model) {
+    public String accessPage(@RequestParam("token") String token, Model model,HttpSession session) {
         String role = jwtUtil.extractRole(token);
         String nom = jwtUtil.extractNom(token);
 
@@ -151,6 +151,11 @@ public class AuthentificationController {
             System.out.println(documents);
             System.out.println("yes");
             model.addAttribute("documents", documents);
+            String cin=session.getAttribute("userId").toString();
+            List<Document> documentss = documentService.getDocumentsForEtudiantid(cin);
+            System.out.println(documents);
+            System.out.println("yes");
+            model.addAttribute("documentss", documentss);
             return "pageEtudiant";
         } else if ("enseignant".equals(role)) {
             model.addAttribute("role", role);
