@@ -147,10 +147,18 @@ public class AuthentificationController {
         if ("etudiant".equals(role)) {
             model.addAttribute("role", role);
             model.addAttribute("nomUtilisateur", nom);
+            List<Document> documents = documentService.getDocumentsForEtudiant();
+            System.out.println(documents);
+            System.out.println("yes");
+            model.addAttribute("documents", documents);
             return "pageEtudiant";
         } else if ("enseignant".equals(role)) {
             model.addAttribute("role", role);
             model.addAttribute("nomUtilisateur", nom);
+            List<Document> documents = documentService.getDocumentsForEnseignant();
+            System.out.println(documents);
+            System.out.println("yes");
+            model.addAttribute("documents", documents);
             return "pageEnseignant";
         } else if ("administrateur".equals(role)) {
             model.addAttribute("role", role);
