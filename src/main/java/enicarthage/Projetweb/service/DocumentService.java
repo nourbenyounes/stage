@@ -19,18 +19,20 @@ public class DocumentService implements DocumentServicee{
     private DocumentRepository documentRepository;
     @Override
 
-    public void saveDocument(String titre, String chemin, byte[] fileContent,String destinataire, String source) {
+    public void saveDocument(String titre, String chemin, byte[] fileContent,String destinataire, String source,String section) {
         Document document = new Document();
         document.setTitre(titre);
         document.setChemin(chemin);
         int taille=(fileContent.length);
         document.setDestinataire(destinataire);
         document.setSource(source);
+        document.setSection(section);
 
 
 
         document.setFileContent(fileContent);
-        document.setId((long)20 );
+        document.setId((long)30);
+        
         documentRepository.save(document);
     }
     @Override
@@ -47,6 +49,12 @@ public class DocumentService implements DocumentServicee{
 
 	public List<Document> getDocumentsForEtudiant() {
         return documentRepository.findByDestinataire("etudiant");
+
+	}
+    @Override
+
+	public List<Document> getDocumentsForEnseignant() {
+        return documentRepository.findByDestinataire("enseignant");
 
 	}
 }
